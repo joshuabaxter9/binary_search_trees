@@ -1,0 +1,97 @@
+#include "bst.h"
+#include <stddef.h>  // For NULL
+#include <stdlib.h>  // For malloc, free
+
+#include "bst.h"
+#include <stddef.h>  // For NULL
+#include <stdlib.h>  // For malloc, free
+
+void insert_into(struct Node** root, int value) {
+	/* TODO: Implement this function! */
+
+	struct Node* z = new Node;
+	z->value = value;
+	z->left = z->right = nullptr;
+
+	struct Node* x = *root;
+	struct Node* y = nullptr;
+
+	while(x != nullptr)
+	{
+		y = x;
+
+		if(z->value < x->value)
+			x = x->left;
+
+		else
+			x = x->right;
+	}
+
+	if(y == nullptr)
+		*root = z;
+
+	else if(z->value < y->value)
+		y->left = z;
+
+	else
+		y->right = z;
+}
+
+void free_tree(struct Node* root) {
+	/* TODO: Implement this function! */
+	if(root != nullptr)
+	{
+		free_tree(root->left);
+		free_tree(root->right);
+		delete root;
+	}
+}
+
+size_t size_of(const struct Node* root) {
+	/* TODO: Implement this function! */
+	if(root == nullptr)
+		return 0;
+	else
+		return 1 + size_of(root->left) + size_of(root->right);
+}
+
+int* contents_of(const struct Node* root) {
+	/* TODO: Implement this function! */
+
+//x == current node && y == prev node
+
+	size_t size = size_of(root);
+	int* result = new int[size];
+
+	int* x = result;
+	const Node* y = nullptr;
+
+	while(root != nullptr || y != nullptr)
+	{
+		y = root;
+		root = root->left;
+	}
+
+	if(y != nullptr)
+	{
+		*x = y->value;
+		++x;
+		root = y->right;
+	}
+	return result;
+}
+
+const struct Node* second_min_in(const struct Node* root) {
+	/* TODO: Implement this function! */
+	
+}
+
+void inorder_tree_walk(const struct Node* root)
+{
+	if(root != NULL)
+	{
+		inorder_tree_walk(root->left);
+		cout << root->value << endl;
+		inorder_tree_walk(root->right);
+	}
+}
